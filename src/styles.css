@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+/* ============================================================
+   衣装集 · 服装参考图库 设计系统
+   纯深色方案：只写 :root 一套 token
+   ============================================================ */
+
+:root {
+  /* 背景层 */
+  --gallery-bg: oklch(0.17 0.012 250);
+  --gallery-bg-soft: oklch(0.205 0.014 252);
+  --gallery-panel: oklch(0.235 0.016 252);
+  --gallery-line: oklch(0.31 0.018 252);
+  --gallery-line-strong: oklch(0.4 0.02 250);
+
+  /* 文字层 */
+  --gallery-ink: oklch(0.95 0.006 250);
+  --gallery-ink-muted: oklch(0.74 0.014 252);
+  --gallery-ink-faint: oklch(0.56 0.02 252);
+
+  /* 强调色（蓝 → 紫粉渐变） */
+  --accent-blue: oklch(0.76 0.12 250);
+  --accent-periwinkle: oklch(0.83 0.08 268);
+  --accent-lilac: oklch(0.79 0.11 305);
+  --accent-blush: oklch(0.84 0.07 335);
+  --accent-deep: oklch(0.13 0.012 250);
+
+  /* 图片衬底（原站浅灰底，保留 contain 观感） */
+  --matte: oklch(0.925 0.006 95);
+  --matte-deep: oklch(0.885 0.007 95);
+
+  /* 圆角 */
+  --radius-card: 14px;
+  --radius-pill: 999px;
+  --radius-field: 12px;
+  --radius-modal: 18px;
+
+  /* 阴影 / 发光 */
+  --shadow-card: 0 10px 30px oklch(0.1 0.02 250 / 0.55);
+  --shadow-float: 0 18px 44px oklch(0.1 0.02 250 / 0.6);
+  --glow-accent: 0 10px 28px oklch(0.76 0.12 250 / 0.3);
+
+  /* 动效时长 */
+  --dur-fast: 150ms;
+  --dur-base: 260ms;
+  --dur-slow: 480ms;
+  --ease-out: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+  /* 版心 */
+  --shell-max: 1600px;
+}
+
+@theme inline {
+  --color-gallery-bg: var(--gallery-bg);
+  --color-gallery-bg-soft: var(--gallery-bg-soft);
+  --color-gallery-panel: var(--gallery-panel);
+  --color-gallery-line: var(--gallery-line);
+  --color-gallery-line-strong: var(--gallery-line-strong);
+
+  --color-gallery-ink: var(--gallery-ink);
+  --color-gallery-ink-muted: var(--gallery-ink-muted);
+  --color-gallery-ink-faint: var(--gallery-ink-faint);
+
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-periwinkle: var(--accent-periwinkle);
+  --color-accent-lilac: var(--accent-lilac);
+  --color-accent-blush: var(--accent-blush);
+  --color-accent-deep: var(--accent-deep);
+
+  --color-matte: var(--matte);
+  --color-matte-deep: var(--matte-deep);
+
+  --radius-card: var(--radius-card);
+  --radius-pill: var(--radius-pill);
+  --radius-field: var(--radius-field);
+  --radius-modal: var(--radius-modal);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-float: var(--shadow-float);
+
+  --font-display: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", Georgia, "Times New Roman", serif;
+  --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--gallery-bg);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    color: var(--gallery-ink);
+    background-image:
+      radial-gradient(1200px 520px at 14% -12%, oklch(0.28 0.05 258) 0, transparent 62%),
+      radial-gradient(940px 420px at 102% -2%, oklch(0.27 0.055 305) 0, transparent 56%);
+    background-color: var(--gallery-bg);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  ::selection {
+    background: var(--accent-blue);
+    color: var(--accent-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .shell {
+    width: 100%;
+    max-width: var(--shell-max);
+    margin-inline: auto;
+    padding-inline: clamp(16px, 4vw, 48px);
+  }
+
+  /* 蓝→紫→粉渐变文字 */
+  .text-gradient {
+    background-image: linear-gradient(96deg, var(--accent-periwinkle), var(--accent-lilac) 62%, var(--accent-blush));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-gradient-accent {
+    background-image: linear-gradient(120deg, var(--accent-blue) 0%, var(--accent-lilac) 52%, var(--accent-blush) 100%);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 关键词三行截断 */
+  .clamp-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 弹窗入场 */
+  @keyframes modal-pop {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .animate-modal-pop {
+    animation: modal-pop var(--dur-base) var(--ease-out) both;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in var(--dur-base) var(--ease-out) both;
+  }
+
+  @keyframes panel-drop {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .animate-panel-drop {
+    animation: panel-drop var(--dur-fast) var(--ease-out) both;
+  }
+
+  /* 首屏标题装饰光带 */
+  @keyframes sheen-drift {
+    0% {
+      transform: translateX(-12%);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateX(12%);
+      opacity: 0.85;
+    }
+    100% {
+      transform: translateX(-12%);
+      opacity: 0.5;
+    }
+  }
+  .animate-sheen {
+    animation: sheen-drift 14s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
